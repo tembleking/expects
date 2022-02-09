@@ -1,6 +1,6 @@
 use crate::Matcher;
 
-use std::fmt::Display;
+use std::fmt::Debug;
 
 /// The EqualMatcher provides equality matching that can be accessed with functions
 /// like [equal], [be_true] or [be_false].
@@ -10,13 +10,13 @@ pub struct EqualMatcher<T> {
 
 impl<T, V> Matcher<T> for EqualMatcher<V>
 where
-    T: PartialEq + Display,
-    V: Into<T> + Display + Clone,
+    T: PartialEq + Debug,
+    V: Into<T> + Debug + Clone,
 {
     fn matches(&self, actual_value: T) {
         debug_assert!(
             self.expected.clone().into() == actual_value,
-            "expected '{}' to be equal to '{}'",
+            "expected '{:?}' to be equal to '{:?}'",
             actual_value,
             self.expected
         )

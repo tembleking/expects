@@ -1,5 +1,5 @@
 use crate::Matcher;
-use std::fmt::Display;
+use std::fmt::Debug;
 
 /// Matches an iterable value looking for an specific element to be present.
 /// It is used with the function [contain_element].
@@ -10,7 +10,7 @@ pub struct ContainsMatcher<T> {
 impl<T, V> Matcher<T> for ContainsMatcher<V>
 where
     T: IntoIterator<Item = V>,
-    V: PartialEq + Display,
+    V: PartialEq + Debug,
 {
     fn matches(&self, actual_value: T) {
         for x in actual_value.into_iter() {
@@ -18,7 +18,11 @@ where
                 return;
             }
         }
-        debug_assert!(false, "expected '{}' to be present", self.element_contained);
+        debug_assert!(
+            false,
+            "expected '{:?}' to be present",
+            self.element_contained
+        );
     }
 }
 
@@ -50,14 +54,14 @@ pub fn contain_element<T>(element: T) -> ContainsMatcher<T> {
 /// It is used with the function [consist_of].
 pub struct ConsistOfMatcher<T>
 where
-    T: Display,
+    T: Debug,
 {
     elements_to_consist_of: Vec<T>,
 }
 
 impl<V> ConsistOfMatcher<V>
 where
-    V: PartialEq + Display,
+    V: PartialEq + Debug,
 {
     fn check_if_there_are_values_in_actual_not_present_in_expected<T>(&self, actual_value: &T)
     where
@@ -69,7 +73,11 @@ where
                     continue 'outer;
                 }
             }
-            debug_assert!(false, "the element '{}' was not expected to be present", x);
+            debug_assert!(
+                false,
+                "the element '{:?}' was not expected to be present",
+                x
+            );
         }
     }
 
@@ -84,7 +92,7 @@ where
                     continue 'outer;
                 }
             }
-            debug_assert!(false, "the element '{}' is missing", x);
+            debug_assert!(false, "the element '{:?}' is missing", x);
         }
     }
 }
@@ -92,7 +100,7 @@ where
 impl<T, V> Matcher<T> for ConsistOfMatcher<V>
 where
     T: IntoIterator<Item = V> + Clone,
-    V: PartialEq + Display,
+    V: PartialEq + Debug,
 {
     fn matches(&self, actual_value: T) {
         self.check_if_there_are_values_in_actual_not_present_in_expected(&actual_value);
@@ -125,7 +133,7 @@ where
 /// ```
 pub fn consist_of<T>(elements: &[T]) -> ConsistOfMatcher<T>
 where
-    T: Clone + Display,
+    T: Clone + Debug,
 {
     ConsistOfMatcher {
         elements_to_consist_of: elements.to_vec(),
