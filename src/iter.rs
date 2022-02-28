@@ -9,18 +9,19 @@ pub struct ContainsMatcher<T> {
 
 impl<T, V> Matcher<T> for ContainsMatcher<V>
 where
-    T: IntoIterator<Item = V>,
+    T: IntoIterator<Item = V> + Debug + Clone,
     V: PartialEq + Debug,
 {
     fn matches(&self, actual_value: T) {
-        for x in actual_value.into_iter() {
+        for x in actual_value.clone().into_iter() {
             if x == self.element_contained {
                 return;
             }
         }
         debug_assert!(
             false,
-            "expected '{:?}' to be present",
+            "expected {:?} to contain '{:?}', but it's not present",
+            &actual_value,
             self.element_contained
         );
     }
@@ -65,7 +66,7 @@ where
 {
     fn check_if_there_are_values_in_actual_not_present_in_expected<T>(&self, actual_value: &T)
     where
-        T: IntoIterator<Item = V> + Clone,
+        T: IntoIterator<Item = V> + Clone + Debug,
     {
         'outer: for x in actual_value.clone().into_iter() {
             for y in self.elements_to_consist_of.iter() {
@@ -75,15 +76,15 @@ where
             }
             debug_assert!(
                 false,
-                "the element '{:?}' was not expected to be present",
-                x
+                "expected {:?} to consist of {:?}, the element '{:?}' was not expected to be present",
+                actual_value, self.elements_to_consist_of, x
             );
         }
     }
 
     fn check_if_there_are_values_in_expected_not_present_in_actual<T>(&self, actual_value: &T)
     where
-        T: IntoIterator<Item = V> + Clone,
+        T: IntoIterator<Item = V> + Clone + Debug,
         V: PartialEq,
     {
         'outer: for x in self.elements_to_consist_of.iter() {
@@ -92,14 +93,16 @@ where
                     continue 'outer;
                 }
             }
-            debug_assert!(false, "the element '{:?}' is missing", x);
+            debug_assert!(false,
+                          "expected {:?} to consist of {:?}, the element '{:?}' was not expected to be present",
+                          actual_value, self.elements_to_consist_of, x);
         }
     }
 }
 
 impl<T, V> Matcher<T> for ConsistOfMatcher<V>
 where
-    T: IntoIterator<Item = V> + Clone,
+    T: IntoIterator<Item = V> + Clone + Debug,
     V: PartialEq + Debug,
 {
     fn matches(&self, actual_value: T) {
