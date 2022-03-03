@@ -87,14 +87,15 @@ pub struct OkResultMatcher<M, T> {
 impl<M, T, E> Matcher<Result<T, E>> for OkResultMatcher<M, T>
 where
     M: Matcher<T>,
+    E: Debug,
 {
     fn matches(&self, actual_value: Result<T, E>) {
         match actual_value {
             Ok(inner) => {
                 self.inner_matcher.matches(inner);
             }
-            Err(_) => {
-                debug_assert!(false, "");
+            Err(err) => {
+                debug_assert!(false, "expected to be Ok, but there was an error: {:?}", err);
             }
         }
     }
@@ -109,11 +110,12 @@ pub struct ErrResultMatcher<M, E> {
 impl<M, T, E> Matcher<Result<T, E>> for ErrResultMatcher<M, E>
 where
     M: Matcher<E>,
+    T: Debug,
 {
     fn matches(&self, actual_value: Result<T, E>) {
         match actual_value {
-            Ok(_) => {
-                debug_assert!(false, "");
+            Ok(ok) => {
+                debug_assert!(false, "expected to be an error but it was Ok: {:?}", ok);
             }
             Err(inner) => {
                 self.inner_matcher.matches(inner);
