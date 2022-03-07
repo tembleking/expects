@@ -12,7 +12,7 @@ where
     T: IntoIterator<Item = V> + Debug + Clone,
     V: PartialEq + Debug,
 {
-    fn matches(&self, actual_value: T) {
+    fn matches(&self, actual_value: &T) {
         for x in actual_value.clone().into_iter() {
             if x == self.element_contained {
                 return;
@@ -21,8 +21,7 @@ where
         debug_assert!(
             false,
             "expected {:?} to contain '{:?}', but it's not present",
-            &actual_value,
-            self.element_contained
+            &actual_value, self.element_contained
         );
     }
 }
@@ -105,9 +104,9 @@ where
     T: IntoIterator<Item = V> + Clone + Debug,
     V: PartialEq + Debug,
 {
-    fn matches(&self, actual_value: T) {
-        self.check_if_there_are_values_in_actual_not_present_in_expected(&actual_value);
-        self.check_if_there_are_values_in_expected_not_present_in_actual(&actual_value)
+    fn matches(&self, actual_value: &T) {
+        self.check_if_there_are_values_in_actual_not_present_in_expected(actual_value);
+        self.check_if_there_are_values_in_expected_not_present_in_actual(actual_value)
     }
 }
 

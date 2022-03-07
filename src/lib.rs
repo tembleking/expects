@@ -28,15 +28,14 @@ pub trait Subject<T, V: Matcher<T>> {
 impl<T, V> Subject<T, V> for T
 where
     V: Matcher<T>,
-    T: Clone,
 {
     fn should(&self, matcher: V) {
-        matcher.matches(self.clone())
+        matcher.matches(self)
     }
 }
 
 /// A Matcher is a trait that can be implemented by custom types to perform assertions.
 pub trait Matcher<T> {
     /// Contains the behavior of the implementing matcher to assert with values.
-    fn matches(&self, actual_value: T);
+    fn matches(&self, actual_value: &T);
 }

@@ -14,9 +14,9 @@ where
     T: PartialEq + Debug,
     V: Into<T> + Debug + Clone,
 {
-    fn matches(&self, actual_value: T) {
+    fn matches(&self, actual_value: &T) {
         debug_assert!(
-            self.expected.clone().into() == actual_value,
+            &self.expected.clone().into() == actual_value,
             "expected '{:?}' to be equal to '{:?}'",
             actual_value,
             self.expected
@@ -89,13 +89,17 @@ where
     M: Matcher<T>,
     E: Debug,
 {
-    fn matches(&self, actual_value: Result<T, E>) {
+    fn matches(&self, actual_value: &Result<T, E>) {
         match actual_value {
             Ok(inner) => {
                 self.inner_matcher.matches(inner);
             }
             Err(err) => {
-                debug_assert!(false, "expected to be Ok, but there was an error: {:?}", err);
+                debug_assert!(
+                    false,
+                    "expected to be Ok, but there was an error: {:?}",
+                    err
+                );
             }
         }
     }
@@ -112,7 +116,7 @@ where
     M: Matcher<E>,
     T: Debug,
 {
-    fn matches(&self, actual_value: Result<T, E>) {
+    fn matches(&self, actual_value: &Result<T, E>) {
         match actual_value {
             Ok(ok) => {
                 debug_assert!(false, "expected to be an error but it was Ok: {:?}", ok);
@@ -126,9 +130,10 @@ where
 
 /// Expects the provided value to be a result of variant Ok that contains something that matches an inner matcher, for example:
 /// ```
+/// # use std::error::Error;
 /// # use expects::equal::{be_ok, be_true};
-/// # use expects::{Matcher, Subject};
-/// Result::<bool,()>::Ok(true).should(be_ok(be_true()))
+/// # use expects::Subject;
+/// Result::<bool, Box<dyn Error>>::Ok(true).should(be_ok(be_true()))
 /// ```
 /// The following snippet should panic:
 /// ```should_panic
