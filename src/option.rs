@@ -71,13 +71,13 @@ where
 
 /// Expects the provided value to be an [`Option`] of variant [`None`].
 /// ```
-/// # use expects::matcher::{be_none, be_true};
+/// # use expects::matcher::be_none;
 /// # use expects::{Matcher, Subject};
 /// Option::<()>::None.should(be_none())
 /// ```
 /// The following snippet should panic:
 /// ```should_panic
-/// # use expects::matcher::{be_none, be_true};
+/// # use expects::matcher::be_none;
 /// # use expects::Subject;
 /// Some(()).should(be_none());
 /// ```
