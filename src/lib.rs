@@ -7,6 +7,7 @@
 mod boolean;
 mod equal;
 mod iter;
+mod option;
 mod result;
 
 /// Provides matcher functions
@@ -14,6 +15,7 @@ pub mod matcher {
     pub use crate::boolean::{be_false, be_true};
     pub use crate::equal::equal;
     pub use crate::iter::{consist_of, contain_element};
+    pub use crate::option::{be_none, be_some};
     pub use crate::result::{be_err, be_ok};
 }
 

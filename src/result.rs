@@ -52,7 +52,7 @@ where
     }
 }
 
-/// Expects the provided value to be a result of variant Ok that contains something that matches an inner matcher, for example:
+/// Expects the provided value to be a [`Result`] of variant [`Ok`] that contains something that matches an inner matcher.
 /// ```
 /// # use std::error::Error;
 /// # use expects::matcher::{be_ok, be_true};
@@ -76,7 +76,7 @@ where
     }
 }
 
-/// Expects the provided value to be a result of variant Err that contains something that matches an inner matcher, for example:
+/// Expects the provided value to be a [`Result`] of variant [`Err`] that contains something that matches an inner matcher.
 /// ```
 /// # use expects::matcher::{be_err, be_true};
 /// # use expects::{Matcher, Subject};

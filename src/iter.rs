@@ -26,7 +26,7 @@ where
     }
 }
 
-/// Expects the provided value to contain an element:
+/// Expects the provided value to contain an element.
 /// ```
 /// # use expects::matcher::contain_element;
 /// # use expects::Subject;
@@ -110,7 +110,7 @@ where
     }
 }
 
-/// Expects the provided value to consist of the specified elements, in an unspecified order:
+/// Expects the provided value to consist of the specified elements, in an unspecified order.
 /// ```
 /// # use expects::matcher::consist_of;
 /// # use expects::Subject;

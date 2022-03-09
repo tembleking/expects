@@ -3,7 +3,7 @@ use crate::Matcher;
 use std::fmt::Debug;
 
 /// The [`EqualityMatcher`] provides equality matching that can be accessed with functions
-/// like [`equal`], [`be_true`] or [`be_false`].
+/// like [`equal`].
 pub struct EqualityMatcher<T> {
     expected: T,
 }
@@ -29,7 +29,7 @@ where
     }
 }
 
-/// Expects the provided value to match with equality, for example:
+/// Expects the provided value to match with equality.
 /// ```
 /// # use expects::matcher::equal;
 /// # use expects::Subject;

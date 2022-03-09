@@ -1,6 +1,6 @@
 use crate::equal::EqualityMatcher;
 
-/// Expects the provided value to match with `true`, for example:
+/// Expects the provided value to match with `true`.
 /// ```
 /// # use expects::matcher::be_true;
 /// # use expects::Subject;
@@ -18,7 +18,7 @@ pub fn be_true() -> EqualityMatcher<bool> {
     EqualityMatcher::new(true)
 }
 
-/// Expects the provided value to match with `false`, for example:
+/// Expects the provided value to match with `false`.
 /// ```
 /// # use expects::matcher::be_false;
 /// # use expects::Subject;
