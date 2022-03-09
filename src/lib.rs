@@ -1,17 +1,20 @@
 #![deny(missing_docs)]
 #![deny(rustdoc::missing_doc_code_examples)]
 #![deny(rustdoc::broken_intra_doc_links)]
+#![deny(unused, clippy::pedantic)]
 //! This crate is a matcher/assertion library designed to help you write expressive tests.
 
-/// Provides matcher functions for testing equality.
+mod boolean;
 mod equal;
-/// Provides matcher functions for iterable elements.
 mod iter;
+mod result;
 
 /// Provides matcher functions
 pub mod matcher {
-    pub use crate::equal::{be_err, be_false, be_ok, be_true, equal};
+    pub use crate::boolean::{be_false, be_true};
+    pub use crate::equal::equal;
     pub use crate::iter::{consist_of, contain_element};
+    pub use crate::result::{be_err, be_ok};
 }
 
 /// The Subject trait allows all types, once imported, to be asserted with the different matchers
@@ -36,7 +39,7 @@ where
     V: Matcher<T>,
 {
     fn should(&self, matcher: V) {
-        matcher.matches(self)
+        matcher.matches(self);
     }
 }
 

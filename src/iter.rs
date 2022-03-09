@@ -2,7 +2,7 @@ use crate::Matcher;
 use std::fmt::Debug;
 
 /// Matches an iterable value looking for an specific element to be present.
-/// It is used with the function [contain_element].
+/// It is used with the function [`contain_element`].
 pub struct ContainsMatcher<T> {
     element_contained: T,
 }
@@ -13,7 +13,7 @@ where
     V: PartialEq + Debug,
 {
     fn matches(&self, actual_value: &T) {
-        for x in actual_value.clone().into_iter() {
+        for x in actual_value.clone() {
             if x == self.element_contained {
                 return;
             }
@@ -51,7 +51,7 @@ pub fn contain_element<T>(element: T) -> ContainsMatcher<T> {
 
 /// Matches an iterable value looking for all the specified elements to be present, and no more,
 /// without an specified order.
-/// It is used with the function [consist_of].
+/// It is used with the function [`consist_of`].
 pub struct ConsistOfMatcher<T>
 where
     T: Debug,
@@ -67,8 +67,8 @@ where
     where
         T: IntoIterator<Item = V> + Clone + Debug,
     {
-        'outer: for x in actual_value.clone().into_iter() {
-            for y in self.elements_to_consist_of.iter() {
+        'outer: for x in actual_value.clone() {
+            for y in &self.elements_to_consist_of {
                 if &x == y {
                     continue 'outer;
                 }
@@ -86,8 +86,8 @@ where
         T: IntoIterator<Item = V> + Clone + Debug,
         V: PartialEq,
     {
-        'outer: for x in self.elements_to_consist_of.iter() {
-            for y in actual_value.clone().into_iter() {
+        'outer: for x in &self.elements_to_consist_of {
+            for y in actual_value.clone() {
                 if x == &y {
                     continue 'outer;
                 }
@@ -106,7 +106,7 @@ where
 {
     fn matches(&self, actual_value: &T) {
         self.check_if_there_are_values_in_actual_not_present_in_expected(actual_value);
-        self.check_if_there_are_values_in_expected_not_present_in_actual(actual_value)
+        self.check_if_there_are_values_in_expected_not_present_in_actual(actual_value);
     }
 }
 
