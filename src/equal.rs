@@ -26,7 +26,7 @@ where
 
 /// Expects the provided value to match with equality, for example:
 /// ```
-/// # use expects::equal::equal;
+/// # use expects::matcher::equal;
 /// # use expects::Subject;
 /// "foo".should(equal("foo"));
 /// 3.should(equal(3));
@@ -36,7 +36,7 @@ where
 ///
 /// The following snippet will panic:
 /// ```should_panic
-/// # use expects::equal::equal;
+/// # use expects::matcher::equal;
 /// # use expects::Subject;
 /// "foo".should(equal("bar"));
 /// ```
@@ -46,14 +46,14 @@ pub fn equal<T>(other: T) -> EqualMatcher<T> {
 
 /// Expects the provided value to match with `true`, for example:
 /// ```
-/// # use expects::equal::be_true;
+/// # use expects::matcher::be_true;
 /// # use expects::Subject;
 /// true.should(be_true());
 /// ```
 ///
 /// The following snippet will panic:
 /// ```should_panic
-/// # use expects::equal::be_true;
+/// # use expects::matcher::be_true;
 /// # use expects::Subject;
 /// false.should(be_true());
 /// ```
@@ -63,14 +63,14 @@ pub fn be_true() -> EqualMatcher<bool> {
 
 /// Expects the provided value to match with `false`, for example:
 /// ```
-/// # use expects::equal::be_false;
+/// # use expects::matcher::be_false;
 /// # use expects::Subject;
 /// false.should(be_false());
 /// ```
 ///
 /// The following snippet will panic:
 /// ```should_panic
-/// # use expects::equal::be_false;
+/// # use expects::matcher::be_false;
 /// # use expects::Subject;
 /// true.should(be_false());
 /// ```
@@ -131,13 +131,13 @@ where
 /// Expects the provided value to be a result of variant Ok that contains something that matches an inner matcher, for example:
 /// ```
 /// # use std::error::Error;
-/// # use expects::equal::{be_ok, be_true};
+/// # use expects::matcher::{be_ok, be_true};
 /// # use expects::Subject;
 /// Result::<bool, Box<dyn Error>>::Ok(true).should(be_ok(be_true()))
 /// ```
 /// The following snippet should panic:
 /// ```should_panic
-/// # use expects::equal::{be_ok, be_true};
+/// # use expects::matcher::{be_ok, be_true};
 /// # use expects::Subject;
 /// Result::<bool,()>::Ok(false).should(be_ok(be_true()));
 /// Result::<bool,()>::Err(()).should(be_ok(be_true()));
@@ -154,13 +154,13 @@ where
 
 /// Expects the provided value to be a result of variant Err that contains something that matches an inner matcher, for example:
 /// ```
-/// # use expects::equal::{be_err, be_true};
+/// # use expects::matcher::{be_err, be_true};
 /// # use expects::{Matcher, Subject};
 /// Result::<(), bool>::Err(true).should(be_err(be_true()))
 /// ```
 /// The following snippet should panic:
 /// ```should_panic
-/// # use expects::equal::{be_err, be_true};
+/// # use expects::matcher::{be_err, be_true};
 /// # use expects::Subject;
 /// Result::<(), bool>::Err(false).should(be_err(be_true()));
 /// Result::<(), bool>::Ok(()).should(be_err(be_true()));

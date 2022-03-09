@@ -28,7 +28,7 @@ where
 
 /// Expects the provided value to contain an element:
 /// ```
-/// # use expects::iter::contain_element;
+/// # use expects::matcher::contain_element;
 /// # use expects::Subject;
 /// let v = vec![1, 2, 3];
 /// v.should(contain_element(1));
@@ -38,7 +38,7 @@ where
 ///
 /// The following snippet will panic:
 /// ```should_panic
-/// # use expects::iter::contain_element;
+/// # use expects::matcher::contain_element;
 /// # use expects::Subject;
 /// let v = vec![1, 2, 3];
 /// v.should(contain_element(4));
@@ -112,7 +112,7 @@ where
 
 /// Expects the provided value to consist of the specified elements, in an unspecified order:
 /// ```
-/// # use expects::iter::consist_of;
+/// # use expects::matcher::consist_of;
 /// # use expects::Subject;
 ///  vec![1, 2, 3].should(consist_of(&[3, 1, 2]));
 ///  (1..3).should(consist_of(&[2, 1]));
@@ -120,7 +120,7 @@ where
 ///
 /// The following snippet will panic because there is an extra element in the original value:
 /// ```should_panic
-/// # use expects::iter::consist_of;
+/// # use expects::matcher::consist_of;
 /// # use expects::Subject;
 /// let v = vec![1, 2, 3];
 /// v.should(consist_of(&[3, 1]))
@@ -128,7 +128,7 @@ where
 ///
 /// The following snippet will panic because there is a missing element in the original value:
 /// ```should_panic
-/// # use expects::iter::consist_of;
+/// # use expects::matcher::consist_of;
 /// # use expects::Subject;
 /// let v = vec![1, 2, 3];
 /// v.should(consist_of(&[3, 1, 2, 4]))

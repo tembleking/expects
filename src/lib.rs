@@ -4,16 +4,22 @@
 //! This crate is a matcher/assertion library designed to help you write expressive tests.
 
 /// Provides matcher functions for testing equality.
-pub mod equal;
+mod equal;
 /// Provides matcher functions for iterable elements.
-pub mod iter;
+mod iter;
+
+/// Provides matcher functions
+pub mod matcher {
+    pub use crate::equal::{be_err, be_false, be_ok, be_true, equal};
+    pub use crate::iter::{consist_of, contain_element};
+}
 
 /// The Subject trait allows all types, once imported, to be asserted with the different matchers
 /// provided by this crate.
 ///
 /// Example of usage:
 /// ```
-/// use expects::equal::equal;
+/// use expects::matcher::equal;
 /// use expects::Subject;
 ///
 /// "foo".should(equal("foo"));
