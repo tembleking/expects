@@ -20,12 +20,7 @@ where
     V: Into<T> + Debug + Clone,
 {
     fn matches(&self, actual_value: &T) {
-        debug_assert!(
-            &self.expected.clone().into() == actual_value,
-            "expected '{:?}' to be equal to '{:?}'",
-            actual_value,
-            self.expected
-        );
+        assert_eq!(&self.expected.clone().into(), actual_value);
     }
 }
 
@@ -47,4 +42,47 @@ where
 /// ```
 pub fn equal<T>(other: T) -> EqualityMatcher<T> {
     EqualityMatcher::new(other)
+}
+
+/// The [`InequalityMatcher`] provides inequality matching that can be accessed with functions
+/// like [`not_equal`].
+pub struct InequalityMatcher<T> {
+    expected: T,
+}
+
+impl<T> InequalityMatcher<T> {
+    pub fn new(expected: T) -> Self {
+        InequalityMatcher { expected }
+    }
+}
+
+impl<T, V> Matcher<T> for InequalityMatcher<V>
+where
+    T: PartialEq + Debug,
+    V: Into<T> + Debug + Clone,
+{
+    fn matches(&self, actual_value: &T) {
+        assert_ne!(&self.expected.clone().into(), actual_value,);
+    }
+}
+
+/// Expects the provided value to match with equality.
+/// ```
+/// # use expects::matcher::not_equal;
+/// # use expects::Subject;
+/// "foo".should(not_equal("bar"));
+/// 3.should(not_equal(4));
+/// 5.6.should(not_equal(6.6));
+/// String::from("foo").should(not_equal("bar"));
+/// ```
+///
+/// The following snippet will panic:
+/// ```should_panic
+/// # use expects::matcher::not_equal;
+/// # use expects::Subject;
+/// "foo".should(not_equal("foo"));
+/// ```
+#[allow(clippy::module_name_repetitions)]
+pub fn not_equal<T>(other: T) -> InequalityMatcher<T> {
+    InequalityMatcher::new(other)
 }

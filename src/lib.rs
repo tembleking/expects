@@ -13,7 +13,7 @@ mod result;
 /// Provides matcher functions
 pub mod matcher {
     pub use crate::boolean::{be_false, be_true};
-    pub use crate::equal::equal;
+    pub use crate::equal::{equal, not_equal};
     pub use crate::iter::{consist_of, contain_element};
     pub use crate::option::{be_none, be_some};
     pub use crate::result::{be_err, be_ok};
