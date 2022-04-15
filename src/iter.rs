@@ -20,7 +20,12 @@ where
         }
         debug_assert!(
             false,
-            "expected {:?} to contain '{:?}', but it's not present",
+            "\
+expected
+  `{:?}`
+to contain
+  `{:?}`'
+but it's not present",
             &actual_value, self.element_contained
         );
     }
@@ -67,7 +72,7 @@ where
     where
         T: IntoIterator<Item = V> + Clone + Debug,
     {
-        'outer: for x in actual_value.clone() {
+        'outer: for (pos, x) in actual_value.clone().into_iter().enumerate() {
             for y in &self.elements_to_consist_of {
                 if &x == y {
                     continue 'outer;
@@ -75,8 +80,16 @@ where
             }
             debug_assert!(
                 false,
-                "expected {:?} to consist of {:?}, the element '{:?}' was not expected to be present",
-                actual_value, self.elements_to_consist_of, x
+                "\
+expected:
+  `{:?}`
+to consist of:
+  `{:?}`
+but the extra element at position `{}` in the original value:
+  `{:?}`
+was not expected to be present
+",
+                actual_value, self.elements_to_consist_of, pos, x
             );
         }
     }
@@ -86,15 +99,24 @@ where
         T: IntoIterator<Item = V> + Clone + Debug,
         V: PartialEq,
     {
-        'outer: for x in &self.elements_to_consist_of {
+        'outer: for (pos, x) in self.elements_to_consist_of.iter().enumerate() {
             for y in actual_value.clone() {
                 if x == &y {
                     continue 'outer;
                 }
             }
-            debug_assert!(false,
-                          "expected {:?} to consist of {:?}, the element '{:?}' was not expected to be present",
-                          actual_value, self.elements_to_consist_of, x);
+            debug_assert!(
+                false,
+                "\
+expected:
+  `{:?}`
+to consist of:
+  `{:?}`
+but the element at position `{}` in the expectation:
+  `{:?}`
+ was missing in the original value",
+                actual_value, self.elements_to_consist_of, pos, x
+            );
         }
     }
 }

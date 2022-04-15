@@ -20,7 +20,7 @@ where
     V: Into<T> + Debug + Clone,
 {
     fn matches(&self, actual_value: &T) {
-        assert_eq!(&self.expected.clone().into(), actual_value);
+        assert_eq!(actual_value, &self.expected.clone().into());
     }
 }
 
@@ -62,7 +62,7 @@ where
     V: Into<T> + Debug + Clone,
 {
     fn matches(&self, actual_value: &T) {
-        assert_ne!(&self.expected.clone().into(), actual_value,);
+        assert_ne!(actual_value, &self.expected.clone().into());
     }
 }
 
