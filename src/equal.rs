@@ -1,5 +1,5 @@
 use crate::Matcher;
-
+use pretty_assertions::{assert_eq, assert_ne};
 use std::fmt::Debug;
 
 /// The [`EqualityMatcher`] provides equality matching that can be accessed with functions
